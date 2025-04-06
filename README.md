@@ -35,9 +35,49 @@ npm install -D cypress-cucumber-preprocessor
 
 Em seguida, configure:
 * cypress.config.js para importar e registrar o preprocessor.
+Como deve ser configurado:
+const { defineConfig } = require("cypress");
+
+module.exports = defineConfig({
+  e2e: {
+    viewportWidth: 1280,
+    viewportHeight: 720,
+    watchForFileChanges: false,
+    specPattern: 'cypress/e2e/**/*.feature',
+    baseUrl: 'https://sampleapp.tricentis.com',
+
+    setupNodeEvents(on, config) {
+      const cucumber = require('cypress-cucumber-preprocessor').default;
+      on('file:preprocessor', cucumber());
+    },
+  },
+});
+
 * package.json com os parâmetros de execução adequados.
+Como deve ser configurado:
+{
+  "name": "desafio_cypress",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": false,
+    "stepDefinitions": "cypress/support/step-definitions/"
+  },
+  "devDependencies": {
+    "cypress": "^14.2.1",
+    "cypress-cucumber-preprocessor": "^4.3.1"
+  }
+}
 
 ⚠️ Após ajustes, execute npx cypress open novamente. A interface deverá estar marcada como E2E Testing (configured).
+
+
 
 
 
